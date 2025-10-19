@@ -3,215 +3,289 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VIDA SHOP MANOKWARI - Toko Kosmetik</title>
+    <title>Admin Panel - VIDA SHOP MANOKWARI</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body {
             box-sizing: border-box;
         }
-        .product-card {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        .admin-card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
-        .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        .admin-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
         }
-        .cart-badge {
-            animation: bounce 0.5s ease-in-out;
+        .success-animation {
+            animation: pulse 0.5s ease-in-out;
         }
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-10px); }
-            60% { transform: translateY(-5px); }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
         }
     </style>
 </head>
-<body class="bg-gradient-to-br from-pink-50 to-purple-50 min-h-full">
+<body class="bg-gradient-to-br from-blue-50 to-indigo-50 min-h-full">
     <!-- Header -->
-    <header class="bg-white shadow-lg sticky top-0 z-50">
+    <header class="bg-white shadow-lg">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center py-4">
                 <div class="flex items-center space-x-3">
-                    <div class="w-12 h-12 bg-gradient-to-r from-pink-500 to-purple-600 rounded-full flex items-center justify-center">
-                        <span class="text-white font-bold text-xl">V</span>
+                    <div class="w-12 h-12 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full flex items-center justify-center">
+                        <span class="text-white font-bold text-xl">A</span>
                     </div>
                     <div>
-                        <h1 class="text-2xl font-bold text-gray-900">VIDA SHOP</h1>
-                        <p class="text-sm text-gray-600">Manokwari</p>
+                        <h1 class="text-2xl font-bold text-gray-900">Admin Panel</h1>
+                        <p class="text-sm text-gray-600">VIDA SHOP Manokwari</p>
                     </div>
                 </div>
                 
                 <div class="flex items-center space-x-4">
-                    <div class="relative">
-                        <input type="text" id="searchInput" placeholder="Cari produk..." 
-                               class="w-64 px-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-pink-500">
-                    </div>
-                    <button id="cartBtn" class="relative bg-pink-500 hover:bg-pink-600 text-white p-3 rounded-full transition-colors">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.5 6M7 13l-1.5 6m0 0h9m-9 0V19a2 2 0 002 2h9a2 2 0 002-2v-6"></path>
-                        </svg>
-                        <span id="cartCount" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-6 h-6 flex items-center justify-center">0</span>
+                    <button id="addProductBtn" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg transition-colors">
+                        + Tambah Produk
+                    </button>
+                    <button id="exportBtn" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors">
+                        📥 Export Data
                     </button>
                 </div>
             </div>
         </div>
     </header>
 
-    <!-- Hero Section -->
-    <section class="bg-gradient-to-r from-pink-500 to-purple-600 text-white py-16">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 class="text-4xl font-bold mb-4">Koleksi Kosmetik Terlengkap</h2>
-            <p class="text-xl mb-8">Temukan produk kecantikan terbaik untuk tampil percaya diri</p>
-            <div class="flex justify-center space-x-4">
-                <span class="bg-white/20 px-4 py-2 rounded-full">✨ Produk Original</span>
-                <span class="bg-white/20 px-4 py-2 rounded-full">🚚 Gratis Ongkir</span>
-                <span class="bg-white/20 px-4 py-2 rounded-full">💯 Garansi Kualitas</span>
-            </div>
-        </div>
-    </section>
-
-    <!-- Category Filter -->
-    <section class="py-8 bg-white">
+    <!-- Stats Dashboard -->
+    <section class="py-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-wrap justify-center gap-4">
-                <button class="category-btn active bg-pink-500 text-white px-6 py-2 rounded-full hover:bg-pink-600 transition-colors" data-category="all">
-                    Semua Produk
-                </button>
-                <button class="category-btn bg-gray-200 text-gray-700 px-6 py-2 rounded-full hover:bg-gray-300 transition-colors" data-category="skincare">
-                    Skincare
-                </button>
-                <button class="category-btn bg-gray-200 text-gray-700 px-6 py-2 rounded-full hover:bg-gray-300 transition-colors" data-category="makeup">
-                    Makeup
-                </button>
-                <button class="category-btn bg-gray-200 text-gray-700 px-6 py-2 rounded-full hover:bg-gray-300 transition-colors" data-category="fragrance">
-                    Parfum
-                </button>
-                <button class="category-btn bg-gray-200 text-gray-700 px-6 py-2 rounded-full hover:bg-gray-300 transition-colors" data-category="haircare">
-                    Perawatan Rambut
-                </button>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <div class="bg-white rounded-lg p-6 shadow-md">
+                    <div class="flex items-center">
+                        <div class="p-3 bg-blue-100 rounded-full">
+                            <span class="text-2xl">📦</span>
+                        </div>
+                        <div class="ml-4">
+                            <p class="text-sm text-gray-600">Total Produk</p>
+                            <p id="totalProducts" class="text-2xl font-bold text-gray-900">0</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-lg p-6 shadow-md">
+                    <div class="flex items-center">
+                        <div class="p-3 bg-green-100 rounded-full">
+                            <span class="text-2xl">💰</span>
+                        </div>
+                        <div class="ml-4">
+                            <p class="text-sm text-gray-600">Rata-rata Harga</p>
+                            <p id="avgPrice" class="text-2xl font-bold text-gray-900">Rp 0</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-lg p-6 shadow-md">
+                    <div class="flex items-center">
+                        <div class="p-3 bg-purple-100 rounded-full">
+                            <span class="text-2xl">🏷️</span>
+                        </div>
+                        <div class="ml-4">
+                            <p class="text-sm text-gray-600">Kategori</p>
+                            <p id="totalCategories" class="text-2xl font-bold text-gray-900">4</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-lg p-6 shadow-md">
+                    <div class="flex items-center">
+                        <div class="p-3 bg-yellow-100 rounded-full">
+                            <span class="text-2xl">✏️</span>
+                        </div>
+                        <div class="ml-4">
+                            <p class="text-sm text-gray-600">Terakhir Edit</p>
+                            <p id="lastEdit" class="text-sm font-bold text-gray-900">-</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Products Grid -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div id="productsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-            <!-- Products will be loaded here -->
+    <!-- Product Management -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <h2 class="text-xl font-bold text-gray-900">Kelola Produk</h2>
+                <p class="text-gray-600">Edit foto, harga, dan informasi produk</p>
+                <div class="mt-4 p-4 bg-blue-50 rounded-lg">
+                    <h3 class="font-semibold text-blue-900 mb-2">📋 Panduan Penggunaan:</h3>
+                    <ul class="text-sm text-blue-800 space-y-1">
+                        <li>• <strong>Edit Produk:</strong> Klik tombol "✏️ Edit" untuk mengubah data produk</li>
+                        <li>• <strong>Foto Produk:</strong> Gunakan URL gambar yang dimulai dengan https://</li>
+                        <li>• <strong>Data Tersimpan:</strong> Semua perubahan otomatis tersimpan di browser Anda</li>
+                        <li>• <strong>Export Data:</strong> Klik "📥 Export Data" untuk backup data produk</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="p-6">
+                <div id="productsContainer" class="space-y-6">
+                    <!-- Products will be loaded here -->
+                </div>
+            </div>
         </div>
     </main>
 
-    <!-- Cart Modal -->
-    <div id="cartModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
+    <!-- Edit Product Modal -->
+    <div id="editModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
         <div class="flex items-center justify-center min-h-screen p-4">
-            <div class="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-hidden">
+            <div class="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
                 <div class="flex justify-between items-center p-6 border-b">
-                    <h3 class="text-xl font-bold">Keranjang Belanja</h3>
-                    <button id="closeCart" class="text-gray-500 hover:text-gray-700">
+                    <h3 class="text-xl font-bold">Edit Produk</h3>
+                    <button id="closeEdit" class="text-gray-500 hover:text-gray-700">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                         </svg>
                     </button>
                 </div>
                 
-                <div id="cartItems" class="p-6 max-h-96 overflow-y-auto">
-                    <!-- Cart items will be loaded here -->
-                </div>
-                
-                <div class="border-t p-6">
-                    <div class="flex justify-between items-center mb-4">
-                        <span class="text-lg font-bold">Total:</span>
-                        <span id="cartTotal" class="text-2xl font-bold text-pink-600">Rp 0</span>
-                    </div>
-                    <button id="checkoutBtn" class="w-full bg-pink-500 hover:bg-pink-600 text-white py-3 rounded-lg font-semibold transition-colors">
-                        Checkout Sekarang
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Checkout Modal -->
-    <div id="checkoutModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
-        <div class="flex items-center justify-center min-h-screen p-4">
-            <div class="bg-white rounded-lg max-w-md w-full">
-                <div class="p-6">
-                    <h3 class="text-xl font-bold mb-6">Checkout Pesanan</h3>
-                    
-                    <form id="checkoutForm">
-                        <div class="space-y-4">
+                <form id="editForm" class="p-6">
+                    <div class="space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
-                                <label for="customerName" class="block text-sm font-medium text-gray-700 mb-1">Nama Lengkap</label>
-                                <input type="text" id="customerName" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500">
+                                <label for="editName" class="block text-sm font-medium text-gray-700 mb-2">Nama Produk</label>
+                                <input type="text" id="editName" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                             </div>
                             
                             <div>
-                                <label for="customerPhone" class="block text-sm font-medium text-gray-700 mb-1">Nomor WhatsApp</label>
-                                <input type="tel" id="customerPhone" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500">
-                            </div>
-                            
-                            <div>
-                                <label for="customerAddress" class="block text-sm font-medium text-gray-700 mb-1">Alamat Lengkap</label>
-                                <textarea id="customerAddress" required rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500"></textarea>
-                            </div>
-                            
-                            <div>
-                                <label for="paymentMethod" class="block text-sm font-medium text-gray-700 mb-1">Metode Pembayaran</label>
-                                <select id="paymentMethod" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500">
-                                    <option value="">Pilih metode pembayaran</option>
-                                    <option value="cod">Bayar di Tempat (COD)</option>
-                                    <option value="transfer">Transfer Bank</option>
-                                    <option value="ewallet">E-Wallet</option>
-                                </select>
+                                <label for="editPrice" class="block text-sm font-medium text-gray-700 mb-2">Harga (Rp)</label>
+                                <input type="number" id="editPrice" required min="0" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                             </div>
                         </div>
                         
-                        <div class="mt-6 flex space-x-3">
-                            <button type="button" id="cancelCheckout" class="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-700 py-2 rounded-lg transition-colors">
-                                Batal
-                            </button>
-                            <button type="submit" class="flex-1 bg-pink-500 hover:bg-pink-600 text-white py-2 rounded-lg transition-colors">
-                                Pesan Sekarang
-                            </button>
+                        <div>
+                            <label for="editCategory" class="block text-sm font-medium text-gray-700 mb-2">Kategori</label>
+                            <select id="editCategory" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <option value="skincare">Skincare</option>
+                                <option value="makeup">Makeup</option>
+                                <option value="fragrance">Parfum</option>
+                                <option value="haircare">Perawatan Rambut</option>
+                            </select>
                         </div>
-                    </form>
-                </div>
+                        
+                        <div>
+                            <label for="editDescription" class="block text-sm font-medium text-gray-700 mb-2">Deskripsi</label>
+                            <textarea id="editDescription" required rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                        </div>
+                        
+                        <div>
+                            <label for="editImage" class="block text-sm font-medium text-gray-700 mb-2">URL Foto Produk</label>
+                            <input type="url" id="editImage" required placeholder="https://example.com/foto-produk.jpg" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <p class="text-sm text-gray-500 mt-1">Masukkan link foto produk (harus dimulai dengan https://)</p>
+                        </div>
+                        
+                        <div id="imagePreview" class="hidden">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Preview Foto</label>
+                            <img id="previewImg" src="" alt="Preview" class="w-32 h-32 object-cover rounded-lg border">
+                        </div>
+                    </div>
+                    
+                    <div class="mt-8 flex space-x-3">
+                        <button type="button" id="cancelEdit" class="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-700 py-3 rounded-lg transition-colors">
+                            Batal
+                        </button>
+                        <button type="submit" class="flex-1 bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-lg transition-colors">
+                            Simpan Perubahan
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 
-    <!-- Success Modal -->
-    <div id="successModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
+    <!-- Add Product Modal -->
+    <div id="addModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
         <div class="flex items-center justify-center min-h-screen p-4">
-            <div class="bg-white rounded-lg max-w-md w-full p-6 text-center">
-                <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <svg class="w-8 h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                    </svg>
+            <div class="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+                <div class="flex justify-between items-center p-6 border-b">
+                    <h3 class="text-xl font-bold">Tambah Produk Baru</h3>
+                    <button id="closeAdd" class="text-gray-500 hover:text-gray-700">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
                 </div>
-                <h3 class="text-xl font-bold mb-2">Pesanan Berhasil!</h3>
-                <p class="text-gray-600 mb-6">Terima kasih telah berbelanja di VIDA SHOP. Kami akan segera menghubungi Anda.</p>
-                <button id="closeSuccess" class="bg-pink-500 hover:bg-pink-600 text-white px-6 py-2 rounded-lg transition-colors">
-                    Tutup
-                </button>
+                
+                <form id="addForm" class="p-6">
+                    <div class="space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="addName" class="block text-sm font-medium text-gray-700 mb-2">Nama Produk</label>
+                                <input type="text" id="addName" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+                            </div>
+                            
+                            <div>
+                                <label for="addPrice" class="block text-sm font-medium text-gray-700 mb-2">Harga (Rp)</label>
+                                <input type="number" id="addPrice" required min="0" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label for="addCategory" class="block text-sm font-medium text-gray-700 mb-2">Kategori</label>
+                            <select id="addCategory" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+                                <option value="">Pilih kategori</option>
+                                <option value="skincare">Skincare</option>
+                                <option value="makeup">Makeup</option>
+                                <option value="fragrance">Parfum</option>
+                                <option value="haircare">Perawatan Rambut</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label for="addDescription" class="block text-sm font-medium text-gray-700 mb-2">Deskripsi</label>
+                            <textarea id="addDescription" required rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"></textarea>
+                        </div>
+                        
+                        <div>
+                            <label for="addImage" class="block text-sm font-medium text-gray-700 mb-2">URL Foto Produk</label>
+                            <input type="url" id="addImage" required placeholder="https://example.com/foto-produk.jpg" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+                            <p class="text-sm text-gray-500 mt-1">Masukkan link foto produk (harus dimulai dengan https://)</p>
+                        </div>
+                        
+                        <div id="addImagePreview" class="hidden">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Preview Foto</label>
+                            <img id="addPreviewImg" src="" alt="Preview" class="w-32 h-32 object-cover rounded-lg border">
+                        </div>
+                    </div>
+                    
+                    <div class="mt-8 flex space-x-3">
+                        <button type="button" id="cancelAdd" class="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-700 py-3 rounded-lg transition-colors">
+                            Batal
+                        </button>
+                        <button type="submit" class="flex-1 bg-green-500 hover:bg-green-600 text-white py-3 rounded-lg transition-colors">
+                            Tambah Produk
+                        </button>
+                    </div>
+                </form>
             </div>
+        </div>
+    </div>
+
+    <!-- Success Notification -->
+    <div id="successNotification" class="fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 hidden">
+        <div class="flex items-center space-x-2">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            <span id="successMessage">Berhasil!</span>
         </div>
     </div>
 
     <script>
-        // Product data - CARA EDIT PRODUK:
-        // 1. Untuk mengubah HARGA: ganti angka di "price: 125000" (tanpa titik/koma)
-        // 2. Untuk mengubah FOTO: ganti URL di "image: " dengan link foto Anda
-        //    Contoh: image: "https://example.com/foto-produk.jpg"
-        // 3. Untuk mengubah NAMA: edit teks di "name: "
-        // 4. Untuk mengubah DESKRIPSI: edit teks di "description: "
-        
-        const products = [
+        // Initial product data
+        let products = [
             {
                 id: 1,
                 name: "Serum Vitamin C Brightening",
-                price: 125000, // Ubah harga di sini (contoh: 150000)
+                price: 125000,
                 category: "skincare",
-                image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Crect width='200' height='200' fill='%23fef3c7'/%3E%3Ccircle cx='100' cy='80' r='30' fill='%23f59e0b'/%3E%3Crect x='80' y='110' width='40' height='60' rx='5' fill='%23ffffff' stroke='%23f59e0b' stroke-width='2'/%3E%3Ctext x='100' y='185' text-anchor='middle' font-family='Arial' font-size='12' fill='%23374151'%3EVit C%3C/text%3E%3C/svg%3E", // Ganti dengan URL foto Anda
+                image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Crect width='200' height='200' fill='%23fef3c7'/%3E%3Ccircle cx='100' cy='80' r='30' fill='%23f59e0b'/%3E%3Crect x='80' y='110' width='40' height='60' rx='5' fill='%23ffffff' stroke='%23f59e0b' stroke-width='2'/%3E%3Ctext x='100' y='185' text-anchor='middle' font-family='Arial' font-size='12' fill='%23374151'%3EVit C%3C/text%3E%3C/svg%3E",
                 description: "Serum pencerah wajah dengan vitamin C untuk kulit glowing"
             },
             {
@@ -237,89 +311,49 @@
                 category: "haircare",
                 image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Crect width='200' height='200' fill='%23ecfdf5'/%3E%3Crect x='70' y='50' width='60' height='100' rx='30' fill='%23059669'/%3E%3Crect x='85' y='40' width='30' height='20' rx='5' fill='%23ffffff'/%3E%3Ctext x='100' y='185' text-anchor='middle' font-family='Arial' font-size='12' fill='%23374151'%3EShampoo%3C/text%3E%3C/svg%3E",
                 description: "Shampoo khusus untuk mengatasi ketombe dan rambut berminyak"
-            },
-            {
-                id: 5,
-                name: "Moisturizer Hyaluronic Acid",
-                price: 156000,
-                category: "skincare",
-                image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Crect width='200' height='200' fill='%23e0f2fe'/%3E%3Ccircle cx='100' cy='100' r='40' fill='%230284c7'/%3E%3Ccircle cx='100' cy='100' r='25' fill='%23ffffff'/%3E%3Ctext x='100' y='185' text-anchor='middle' font-family='Arial' font-size='12' fill='%23374151'%3EMoisturizer%3C/text%3E%3C/svg%3E",
-                description: "Pelembab wajah dengan hyaluronic acid untuk hidrasi maksimal"
-            },
-            {
-                id: 6,
-                name: "Lipstik Matte Velvet",
-                price: 78000,
-                category: "makeup",
-                image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Crect width='200' height='200' fill='%23fef2f2'/%3E%3Crect x='85' y='60' width='30' height='80' rx='5' fill='%23dc2626'/%3E%3Crect x='87' y='50' width='26' height='15' rx='3' fill='%23fbbf24'/%3E%3Ctext x='100' y='185' text-anchor='middle' font-family='Arial' font-size='12' fill='%23374151'%3ELipstick%3C/text%3E%3C/svg%3E",
-                description: "Lipstik dengan tekstur matte yang tahan lama"
-            },
-            {
-                id: 7,
-                name: "Sunscreen SPF 50 PA+++",
-                price: 95000,
-                category: "skincare",
-                image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Crect width='200' height='200' fill='%23fffbeb'/%3E%3Crect x='75' y='50' width='50' height='100' rx='10' fill='%23f59e0b'/%3E%3Ccircle cx='100' cy='100' r='20' fill='%23ffffff'/%3E%3Ctext x='100' y='105' text-anchor='middle' font-family='Arial' font-size='14' font-weight='bold' fill='%23f59e0b'%3ESPF50%3C/text%3E%3Ctext x='100' y='185' text-anchor='middle' font-family='Arial' font-size='12' fill='%23374151'%3ESunscreen%3C/text%3E%3C/svg%3E",
-                description: "Tabir surya dengan perlindungan maksimal dari sinar UV"
-            },
-            {
-                id: 8,
-                name: "Hair Mask Repair & Shine",
-                price: 112000,
-                category: "haircare",
-                image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Crect width='200' height='200' fill='%23f0fdf4'/%3E%3Crect x='70' y='60' width='60' height='80' rx='10' fill='%2316a34a'/%3E%3Crect x='75' y='50' width='50' height='20' rx='5' fill='%23fbbf24'/%3E%3Ctext x='100' y='185' text-anchor='middle' font-family='Arial' font-size='12' fill='%23374151'%3EHair Mask%3C/text%3E%3C/svg%3E",
-                description: "Masker rambut untuk memperbaiki dan memberikan kilau alami"
             }
         ];
 
-        // Cart state
-        let cart = [];
-        let currentCategory = 'all';
+        let currentEditId = null;
+        let nextId = 5;
 
         // DOM elements
-        const productsGrid = document.getElementById('productsGrid');
-        const cartBtn = document.getElementById('cartBtn');
-        const cartCount = document.getElementById('cartCount');
-        const cartModal = document.getElementById('cartModal');
-        const closeCart = document.getElementById('closeCart');
-        const cartItems = document.getElementById('cartItems');
-        const cartTotal = document.getElementById('cartTotal');
-        const checkoutBtn = document.getElementById('checkoutBtn');
-        const checkoutModal = document.getElementById('checkoutModal');
-        const cancelCheckout = document.getElementById('cancelCheckout');
-        const checkoutForm = document.getElementById('checkoutForm');
-        const successModal = document.getElementById('successModal');
-        const closeSuccess = document.getElementById('closeSuccess');
-        const searchInput = document.getElementById('searchInput');
-        const categoryBtns = document.querySelectorAll('.category-btn');
+        const productsContainer = document.getElementById('productsContainer');
+        const editModal = document.getElementById('editModal');
+        const addModal = document.getElementById('addModal');
+        const editForm = document.getElementById('editForm');
+        const addForm = document.getElementById('addForm');
+        const successNotification = document.getElementById('successNotification');
 
         // Initialize app
         function init() {
             renderProducts();
-            updateCartUI();
+            updateStats();
             setupEventListeners();
         }
 
         // Setup event listeners
         function setupEventListeners() {
-            cartBtn.addEventListener('click', () => cartModal.classList.remove('hidden'));
-            closeCart.addEventListener('click', () => cartModal.classList.add('hidden'));
-            checkoutBtn.addEventListener('click', () => {
-                cartModal.classList.add('hidden');
-                checkoutModal.classList.remove('hidden');
-            });
-            cancelCheckout.addEventListener('click', () => checkoutModal.classList.add('hidden'));
-            closeSuccess.addEventListener('click', () => successModal.classList.add('hidden'));
-            
-            checkoutForm.addEventListener('submit', handleCheckout);
-            searchInput.addEventListener('input', handleSearch);
-            
-            categoryBtns.forEach(btn => {
-                btn.addEventListener('click', () => handleCategoryFilter(btn));
-            });
+            // Modal controls
+            document.getElementById('closeEdit').addEventListener('click', () => editModal.classList.add('hidden'));
+            document.getElementById('cancelEdit').addEventListener('click', () => editModal.classList.add('hidden'));
+            document.getElementById('closeAdd').addEventListener('click', () => addModal.classList.add('hidden'));
+            document.getElementById('cancelAdd').addEventListener('click', () => addModal.classList.add('hidden'));
+            document.getElementById('addProductBtn').addEventListener('click', () => addModal.classList.remove('hidden'));
+
+            // Form submissions
+            editForm.addEventListener('submit', handleEditSubmit);
+            addForm.addEventListener('submit', handleAddSubmit);
+
+            // Image preview
+            document.getElementById('editImage').addEventListener('input', handleImagePreview);
+            document.getElementById('addImage').addEventListener('input', handleAddImagePreview);
+
+            // Export button
+            document.getElementById('exportBtn').addEventListener('click', exportData);
 
             // Close modals when clicking outside
-            [cartModal, checkoutModal, successModal].forEach(modal => {
+            [editModal, addModal].forEach(modal => {
                 modal.addEventListener('click', (e) => {
                     if (e.target === modal) {
                         modal.classList.add('hidden');
@@ -329,162 +363,214 @@
         }
 
         // Render products
-        function renderProducts(productsToRender = products) {
-            const filteredProducts = currentCategory === 'all' 
-                ? productsToRender 
-                : productsToRender.filter(product => product.category === currentCategory);
-
-            productsGrid.innerHTML = filteredProducts.map(product => `
-                <div class="product-card bg-white rounded-xl shadow-md overflow-hidden">
-                    <div class="aspect-square bg-gray-100 flex items-center justify-center">
-                        <img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover">
-                    </div>
-                    <div class="p-6">
-                        <h3 class="font-semibold text-lg mb-2 text-gray-900">${product.name}</h3>
-                        <p class="text-gray-600 text-sm mb-4">${product.description}</p>
-                        <div class="flex justify-between items-center">
-                            <span class="text-2xl font-bold text-pink-600">Rp ${product.price.toLocaleString('id-ID')}</span>
-                            <button onclick="addToCart(${product.id})" class="bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded-lg transition-colors">
-                                + Keranjang
-                            </button>
+        function renderProducts() {
+            productsContainer.innerHTML = products.map(product => `
+                <div class="admin-card bg-gray-50 rounded-lg p-6 border border-gray-200">
+                    <div class="flex items-start space-x-6">
+                        <div class="flex-shrink-0">
+                            <img src="${product.image}" alt="${product.name}" class="w-24 h-24 object-cover rounded-lg border">
+                        </div>
+                        
+                        <div class="flex-1 min-w-0">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h3 class="text-lg font-semibold text-gray-900 mb-1">${product.name}</h3>
+                                    <p class="text-sm text-gray-600 mb-2">${product.description}</p>
+                                    <div class="flex items-center space-x-4">
+                                        <span class="text-2xl font-bold text-blue-600">Rp ${product.price.toLocaleString('id-ID')}</span>
+                                        <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full">${getCategoryName(product.category)}</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex space-x-2">
+                                    <button onclick="editProduct(${product.id})" class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg transition-colors">
+                                        ✏️ Edit
+                                    </button>
+                                    <button onclick="deleteProduct(${product.id})" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition-colors">
+                                        🗑️ Hapus
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             `).join('');
         }
 
-        // Handle category filter
-        function handleCategoryFilter(clickedBtn) {
-            categoryBtns.forEach(btn => {
-                btn.classList.remove('active', 'bg-pink-500', 'text-white');
-                btn.classList.add('bg-gray-200', 'text-gray-700');
-            });
-            
-            clickedBtn.classList.add('active', 'bg-pink-500', 'text-white');
-            clickedBtn.classList.remove('bg-gray-200', 'text-gray-700');
-            
-            currentCategory = clickedBtn.dataset.category;
-            renderProducts();
+        // Get category display name
+        function getCategoryName(category) {
+            const names = {
+                'skincare': 'Skincare',
+                'makeup': 'Makeup',
+                'fragrance': 'Parfum',
+                'haircare': 'Perawatan Rambut'
+            };
+            return names[category] || category;
         }
 
-        // Handle search
-        function handleSearch() {
-            const searchTerm = searchInput.value.toLowerCase();
-            const filteredProducts = products.filter(product => 
-                product.name.toLowerCase().includes(searchTerm) ||
-                product.description.toLowerCase().includes(searchTerm)
-            );
-            renderProducts(filteredProducts);
+        // Edit product
+        function editProduct(id) {
+            const product = products.find(p => p.id === id);
+            if (!product) return;
+
+            currentEditId = id;
+            
+            document.getElementById('editName').value = product.name;
+            document.getElementById('editPrice').value = product.price;
+            document.getElementById('editCategory').value = product.category;
+            document.getElementById('editDescription').value = product.description;
+            document.getElementById('editImage').value = product.image;
+            
+            // Show image preview
+            const preview = document.getElementById('imagePreview');
+            const previewImg = document.getElementById('previewImg');
+            previewImg.src = product.image;
+            preview.classList.remove('hidden');
+            
+            editModal.classList.remove('hidden');
         }
 
-        // Add to cart
-        function addToCart(productId) {
-            const product = products.find(p => p.id === productId);
-            const existingItem = cart.find(item => item.id === productId);
-            
-            if (existingItem) {
-                existingItem.quantity += 1;
-            } else {
-                cart.push({ ...product, quantity: 1 });
-            }
-            
-            updateCartUI();
-            
-            // Add bounce animation to cart button
-            cartCount.classList.add('cart-badge');
-            setTimeout(() => cartCount.classList.remove('cart-badge'), 500);
-        }
-
-        // Remove from cart
-        function removeFromCart(productId) {
-            cart = cart.filter(item => item.id !== productId);
-            updateCartUI();
-            renderCartItems();
-        }
-
-        // Update quantity
-        function updateQuantity(productId, change) {
-            const item = cart.find(item => item.id === productId);
-            if (item) {
-                item.quantity += change;
-                if (item.quantity <= 0) {
-                    removeFromCart(productId);
-                } else {
-                    updateCartUI();
-                    renderCartItems();
-                }
+        // Delete product
+        function deleteProduct(id) {
+            if (confirm('Apakah Anda yakin ingin menghapus produk ini?')) {
+                products = products.filter(p => p.id !== id);
+                renderProducts();
+                updateStats();
+                showSuccess('Produk berhasil dihapus!');
             }
         }
 
-        // Update cart UI
-        function updateCartUI() {
-            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-            const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            
-            cartCount.textContent = totalItems;
-            cartTotal.textContent = `Rp ${totalPrice.toLocaleString('id-ID')}`;
-            
-            renderCartItems();
-        }
-
-        // Render cart items
-        function renderCartItems() {
-            if (cart.length === 0) {
-                cartItems.innerHTML = `
-                    <div class="text-center py-8">
-                        <p class="text-gray-500">Keranjang belanja kosong</p>
-                    </div>
-                `;
-                return;
-            }
-
-            cartItems.innerHTML = cart.map(item => `
-                <div class="flex items-center space-x-4 py-4 border-b">
-                    <img src="${item.image}" alt="${item.name}" class="w-16 h-16 object-cover rounded-lg">
-                    <div class="flex-1">
-                        <h4 class="font-semibold">${item.name}</h4>
-                        <p class="text-pink-600 font-bold">Rp ${item.price.toLocaleString('id-ID')}</p>
-                    </div>
-                    <div class="flex items-center space-x-2">
-                        <button onclick="updateQuantity(${item.id}, -1)" class="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center hover:bg-gray-300">-</button>
-                        <span class="w-8 text-center">${item.quantity}</span>
-                        <button onclick="updateQuantity(${item.id}, 1)" class="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center hover:bg-gray-300">+</button>
-                    </div>
-                    <button onclick="removeFromCart(${item.id})" class="text-red-500 hover:text-red-700">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                        </svg>
-                    </button>
-                </div>
-            `).join('');
-        }
-
-        // Handle checkout
-        function handleCheckout(e) {
+        // Handle edit form submission
+        function handleEditSubmit(e) {
             e.preventDefault();
             
-            const formData = new FormData(checkoutForm);
-            const customerName = document.getElementById('customerName').value;
-            const customerPhone = document.getElementById('customerPhone').value;
-            const customerAddress = document.getElementById('customerAddress').value;
-            const paymentMethod = document.getElementById('paymentMethod').value;
+            const productIndex = products.findIndex(p => p.id === currentEditId);
+            if (productIndex === -1) return;
+
+            products[productIndex] = {
+                ...products[productIndex],
+                name: document.getElementById('editName').value,
+                price: parseInt(document.getElementById('editPrice').value),
+                category: document.getElementById('editCategory').value,
+                description: document.getElementById('editDescription').value,
+                image: document.getElementById('editImage').value
+            };
+
+            editModal.classList.add('hidden');
+            renderProducts();
+            updateStats();
+            updateLastEdit();
+            showSuccess('Produk berhasil diperbarui!');
+        }
+
+        // Handle add form submission
+        function handleAddSubmit(e) {
+            e.preventDefault();
             
-            // Simulate order processing
+            const newProduct = {
+                id: nextId++,
+                name: document.getElementById('addName').value,
+                price: parseInt(document.getElementById('addPrice').value),
+                category: document.getElementById('addCategory').value,
+                description: document.getElementById('addDescription').value,
+                image: document.getElementById('addImage').value
+            };
+
+            products.push(newProduct);
+            
+            addModal.classList.add('hidden');
+            addForm.reset();
+            document.getElementById('addImagePreview').classList.add('hidden');
+            renderProducts();
+            updateStats();
+            updateLastEdit();
+            showSuccess('Produk baru berhasil ditambahkan!');
+        }
+
+        // Handle image preview
+        function handleImagePreview(e) {
+            const url = e.target.value;
+            const preview = document.getElementById('imagePreview');
+            const previewImg = document.getElementById('previewImg');
+            
+            if (url && url.startsWith('https://')) {
+                previewImg.src = url;
+                preview.classList.remove('hidden');
+            } else {
+                preview.classList.add('hidden');
+            }
+        }
+
+        // Handle add image preview
+        function handleAddImagePreview(e) {
+            const url = e.target.value;
+            const preview = document.getElementById('addImagePreview');
+            const previewImg = document.getElementById('addPreviewImg');
+            
+            if (url && url.startsWith('https://')) {
+                previewImg.src = url;
+                preview.classList.remove('hidden');
+            } else {
+                preview.classList.add('hidden');
+            }
+        }
+
+        // Update statistics
+        function updateStats() {
+            const totalProducts = products.length;
+            const avgPrice = totalProducts > 0 ? products.reduce((sum, p) => sum + p.price, 0) / totalProducts : 0;
+            
+            document.getElementById('totalProducts').textContent = totalProducts;
+            document.getElementById('avgPrice').textContent = `Rp ${Math.round(avgPrice).toLocaleString('id-ID')}`;
+        }
+
+        // Update last edit time
+        function updateLastEdit() {
+            const now = new Date();
+            const timeString = now.toLocaleString('id-ID', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+            document.getElementById('lastEdit').textContent = timeString;
+        }
+
+        // Show success notification
+        function showSuccess(message) {
+            const notification = document.getElementById('successNotification');
+            const messageEl = document.getElementById('successMessage');
+            
+            messageEl.textContent = message;
+            notification.classList.remove('hidden');
+            notification.classList.add('success-animation');
+            
             setTimeout(() => {
-                checkoutModal.classList.add('hidden');
-                successModal.classList.remove('hidden');
-                
-                // Clear cart
-                cart = [];
-                updateCartUI();
-                
-                // Reset form
-                checkoutForm.reset();
-            }, 1000);
+                notification.classList.add('hidden');
+                notification.classList.remove('success-animation');
+            }, 3000);
+        }
+
+        // Export data
+        function exportData() {
+            const dataStr = JSON.stringify(products, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            const url = URL.createObjectURL(dataBlob);
+            
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'vida-shop-products.json';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+            
+            showSuccess('Data produk berhasil diexport!');
         }
 
         // Initialize the app
         init();
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'990ef605e705d8a3',t:'MTc2MDg2MzEyNS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'990f6e67f3e8c649',t:'MTc2MDg2ODA1Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
